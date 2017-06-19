@@ -405,6 +405,7 @@ public struct InlineRowHideOptions: OptionSet {
 open class FormViewController: UIViewController, FormViewControllerProtocol {
 
     @IBOutlet public var tableView: UITableView!
+    open var cellToNavigateTo: BaseCell?
 
     private lazy var _form: Form = { [weak self] in
         let form = Form()
@@ -1023,6 +1024,7 @@ extension FormViewController {
         guard let nextRow = nextRow(for: form[currentIndexPath], withDirection: direction) else { return }
         if nextRow.baseCell.cellCanBecomeFirstResponder() {
             tableView?.scrollToRow(at: nextRow.indexPath!, at: .none, animated: animateScroll)
+            cellToNavigateTo = nextRow.baseCell
             nextRow.baseCell.cellBecomeFirstResponder(withDirection: direction)
         }
     }
